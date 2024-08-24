@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Sidebar with Icons and Tooltips</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Sidebar styling */
+#sidebar {
+    width: 220px;
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+#sidebar .nav-link {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px; /* Added padding to improve spacing */
+}
+
+#sidebar .nav-link.active {
+    background-color: #495057;
+}
+
+#sidebar .category-icon {
+    margin-right: 10px;
+    font-size: 1.5rem; /* Adjusted font size for better visibility */
+}
+
+.category-name {
+    transition: opacity 0.3s ease;
+    flex: 1; /* Ensure the text takes the remaining space */
+}
+
+/* Hide the category names on smaller screens but keep icons */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 150px;
+        overflow: hidden; /* Hide overflow if necessary */
+    }
+
+    .category-name {
+        display: none;
+    }
+
+    #sidebar .category-icon {
+        margin-right: 100px;
+    }
+
+    
+}
+
+/* Main content area */
+#main-content {
+    padding: 20px;
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+}
+
+/* Scrollable Tabs */
+.nav-tabs {
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.nav-tabs .nav-item {
+    flex: 0 0 auto;
+}
+
+.nav-tabs .nav-link {
+    white-space: nowrap; /* Prevent wrapping of tab names */
+}
+
+/* Tooltip styling */
+.tooltip-inner {
+    background-color: #495057;
+}
+
+.tooltip .arrow::before {
+    border-top-color: #495057;
+}
+#categoryTabs{
+    overflow-y: hidden;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-dark">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active" data-category="snacks" data-toggle="tooltip" title="Snacks">
+                    <i class="fas fa-cookie-bite category-icon"></i><span class="category-name">Snacks</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-category="sweets" data-toggle="tooltip" title="Sweets">
+                    <i class="fas fa-candy-cane category-icon"></i><span class="category-name">Sweets</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-category="groceries" data-toggle="tooltip" title="Groceries">
+                    <i class="fas fa-shopping-basket category-icon"></i><span class="category-name">Groceries</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <div id="main-content" class="flex-grow-1">
+            <!-- Horizontal Tabs -->
+            <ul class="nav nav-tabs" id="categoryTabs">
+                <!-- Dynamic tabs will be injected here -->
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="tabContent">
+                <!-- Dynamic tab content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Initialize tooltips -->
+    <script>
+        const categoryData = {
+            snacks: ['Brand A', 'Brand B', 'Brand C', 'Brand D', 'Brand E', 'Brand F'],
+            sweets: ['Brand G', 'Brand H', 'Brand I', 'Brand J', 'Brand K', 'Brand L'],
+            groceries: ['Brand M', 'Brand N', 'Brand O', 'Brand P', 'Brand Q', 'Brand R']
+        };
+
+            function loadTabs(category) {
+    const tabs = $('#categoryTabs');
+    const tabContent = $('#tabContent');
+    tabs.empty();
+    tabContent.empty();
+
+    const brands = categoryData[category];
+    brands.forEach((brand, index) => {
+        const isActive = index === 0 ? 'active' : '';
+
+        // Create tabs
+        const tab = `<li class="nav-item">
+                        <a class="nav-link ${isActive}" id="tab-${index}" data-toggle="tab" href="#content-${index}">
+                            ${brand}
+                        </a>
+                     </li>`;
+        tabs.append(tab);
+
+        // Create tab content with product cards
+        const content = `<div class="tab-pane fade show ${isActive}" id="content-${index}">
+                            <h3>${brand}</h3>
+                            <p>Content for ${brand} goes here.</p>
+                            <div class="row">
+                                <!-- Example product card 1 -->
+                                <div class="col-md-3 mb-4">
+                                    <div class="card">
+                                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="${brand} Product 1">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${brand} Product 1</h5>
+                                            <p class="card-text">Description of ${brand} Product 1.</p>
+                                            <a href="#" class="btn btn-primary">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Example product card 2 -->
+                                <div class="col-md-3 mb-4">
+                                    <div class="card">
+                                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="${brand} Product 2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${brand} Product 2</h5>
+                                            <p class="card-text">Description of ${brand} Product 2.</p>
+                                            <a href="#" class="btn btn-primary">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Add more product cards as needed -->
+                            </div>
+                        </div>`;
+        tabContent.append(content);
+    });
+}
+
+            $(document).ready(function () {
+                // Load default category
+                loadTabs('snacks');
+
+                // Handle sidebar category click
+                $('#sidebar .list-group-item').click(function () {
+                    $('#sidebar .list-group-item').removeClass('active');
+                    $(this).addClass('active');
+                    const category = $(this).data('category');
+                    loadTabs(category);
+                });
+            });
+    </script>
+</body>
+
+</html>
